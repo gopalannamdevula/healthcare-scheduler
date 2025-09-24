@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: doctor-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: doctor_admin
+      POSTGRES_PASSWORD: doctor_pass
+      POSTGRES_DB: doctor_service_db
+    volumes:
+        - postgres_data:/var/lib/postgresql/data
+
+volumes:
+      postgres_data:
+
+
+

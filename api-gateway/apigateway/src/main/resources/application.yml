@@ -1,0 +1,42 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: apigateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: patient-service
+          uri: lb://PATIENT-SERVICE
+          predicates:
+               - Path=/api/**,/auth/**
+        - id: doctor-service
+          uri: lb://DOCTOR-SERVICE
+          predicates:
+            - Path=/doc/**,/docauth/**
+        - id: appointment
+          uri: lb://APPOINTMENT
+          predicates:
+            - Path=/appoint/**
+
+      discovery:
+        locator:
+          enabled: true
+    discovery:
+      enabled: true
+
+    inetutils:
+      preferred-networks:
+        - 127
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    hostname: patient-service
+

@@ -1,0 +1,28 @@
+
+services:
+  mongo:
+    image: mongo
+    container_name: MongoPatientNew
+    ports:
+      - "27017:27017"
+    restart: always
+  patient-service:
+    build:
+      context: ./patient-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+      - mongo
+    networks:
+      - backend
+  eureka-server:
+    build: ../EurekaServer
+    ports:
+      - "8761:8761"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
